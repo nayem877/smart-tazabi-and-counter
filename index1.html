@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Smart Tasbeeh - Master v18.0</title>
+    <style>
+        :root {
+            --bg-color: #f5f6fa;
+            --text-color: #2c3e50;
+            --card-bg: #ffffff;
+            --primary-color: #27ae60;
+        }
+
+        .theme-dark { --bg-color: #1a1a1b; --text-color: #ecf0f1; --card-bg: #2d3436; --primary-color: #00b894; }
+        .theme-blue { --bg-color: #e1f5fe; --text-color: #01579b; --card-bg: #ffffff; --primary-color: #0288d1; }
+        .theme-gold { --bg-color: #2d241e; --text-color: #f1c40f; --card-bg: #3d3229; --primary-color: #f39c12; }
+        .theme-rose { --bg-color: #fff5f6; --text-color: #b33939; --card-bg: #ffffff; --primary-color: #ef5777; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0; padding: 0; transition: 0.5s; text-align: center;
+        }
+
+        /* স্প্ল্যাশ স্ক্রিন */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary-color); color: white;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000; transition: 0.8s ease-in-out;
+        }
+
+        .top-header {
+            background-color: var(--primary-color); padding: 15px; position: sticky;
+            top: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between;
+        }
+
+        .search-container { display: flex; background: white; border-radius: 25px; padding: 5px 15px; width: 80%; align-items: center; }
+        .search-container input { border: none; outline: none; padding: 8px; width: 100%; font-size: 14px; }
+
+        .sidebar {
+            height: 100%; width: 0; position: fixed; z-index: 2000; top: 0; right: 0;
+            background-color: var(--card-bg); overflow: hidden; transition: 0.5s;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.3); display: flex; flex-direction: column;
+        }
+
+        .sidebar-header { padding: 20px; border-bottom: 1px solid #eee; text-align: left; }
+        .sidebar-content { flex: 1; overflow-y: auto; padding: 20px; text-align: left; }
+
+        .main-content { max-width: 550px; margin: auto; padding: 20px; padding-bottom: 100px; }
+
+        .box-style {
+            background: var(--card-bg); padding: 20px; border-radius: 25px;
+            margin-bottom: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        /* মিডিয়া প্লেয়ার ডিজাইন */
+        .player-area { width: 100%; margin-top: 15px; display: none; background: #000; border-radius: 15px; overflow: hidden; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        video#localVideo { width: 100%; max-height: 300px; display: none; }
+        audio#localAudio { width: 100%; height: 50px; display: none; margin: 10px 0; }
+
+        #count-num { font-size: 100px; font-weight: bold; margin: 10px 0; display: block; color: var(--text-color); line-height: 1; }
+        .btn-style { padding: 12px 25px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+
+        /* স্মার্ট সিলেকশন পপআপ/মেনু */
+        .selection-menu {
+            display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .history-card {
+            background: var(--bg-color); padding: 15px; border-radius: 15px;
+            margin-bottom: 15px; border-left: 6px solid var(--primary-color);
+            position: relative; cursor: pointer;
+        }
+        .del-btn { background: #ff4757; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+
+        .footer-brand { margin-top: 40px; padding: 20px; font-size: 14px; font-weight: bold; opacity: 0.8; border-top: 1px dashed #ccc; }
+    </style>
+</head>
+<body id="mainAppBody">
+
+    <div id="splash-screen">
+        <h1 id="spTitle">Welcome to Smart Counter & Tasbeeh</h1>
+        <p style="font-size: 24px; letter-spacing: 3px;">HYBRID</p>
+    </div>
+
+    <div class="top-header">
+        <div class="search-container">
+            <input type="text" id="mainSearch" placeholder="ইসলামিক তথ্য সার্চ করুন...">
+            <button onclick="performSearch()" style="background:none; border:none; cursor:pointer;">🔍</button>
+        </div>
+        <div onclick="handleMenu(true)" style="color:white; font-size:30px; cursor:pointer;">☰</div>
+    </div>
+
+    <div id="smartSidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span style="font-size: 40px; cursor: pointer;" onclick="handleMenu(false)">&times;</span>
+            <h3 id="sideTitle">সেটিংস ও হিস্টোরি</h3>
+            <div style="display:flex; gap:10px; margin-bottom: 20px;">
+                <button onclick="setAppLang('bn')" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; cursor:pointer;">বাংলা</button>
+                <button onclick="setAppLang('en')" style="flex:1; padding:10px; border-radius:10px; border:1px solid #ddd; cursor:pointer;">English</button>
+            </div>
+            <h4 id="themeHeading">থিম নির্বাচন করুন</h4>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom: 20px;">
+                <div onclick="setAppTheme('default')" style="cursor:pointer; text-align:center;"><div style="width:30px; height:30px; background:#27ae60; border-radius:50%; margin:auto;"></div><small>লাইভ</small></div>
+                <div onclick="setAppTheme('theme-dark')" style="cursor:pointer; text-align:center;"><div style="width:30px; height:30px; background:#1a1a1b; border-radius:50%; margin:auto;"></div><small>ডার্ক</small></div>
+                <div onclick="setAppTheme('theme-blue')" style="cursor:pointer; text-align:center;"><div style="width:30px; height:30px; background:#0288d1; border-radius:50%; margin:auto;"></div><small>ব্লু</small></div>
+                <div onclick="setAppTheme('theme-gold')" style="cursor:pointer; text-align:center;"><div style="width:30px; height:30px; background:#f39c12; border-radius:50%; margin:auto;"></div><small>গোল্ড</small></div>
+                <div onclick="setAppTheme('theme-rose')" style="cursor:pointer; text-align:center;"><div style="width:30px; height:30px; background:#ef5777; border-radius:50%; margin:auto;"></div><small>রোজ</small></div>
+            </div>
+            <button onclick="clearEverything()" style="background:red; color:white; border:none; padding:12px; border-radius:10px; width:100%; font-weight:bold; cursor:pointer;">🗑 সব হিস্টোরি মুছুন</button>
+        </div>
+        <div class="sidebar-content" id="historyListArea"></div>
+    </div>
+
+    <div class="main-content">
+        
+        <div class="box-style">
+            <h4 id="mediaHead" style="margin-top:0;">ওয়াজ ও গজল প্লেয়ার</h4>
+            
+            <div id="masterPlayer" class="player-area">
+                <div id="ytWrap" class="video-wrapper" style="display:none;"><iframe id="webVideo" allowfullscreen></iframe></div>
+                <video id="localVideo" controls playsinline></video>
+                <audio id="localAudio" controls></audio>
+            </div>
+
+            <div style="background: #fff9db; padding: 10px; border-radius: 10px; font-size: 13px; margin: 15px 0; text-align: left; color: #856404;" id="guideBox">
+                YouTube লিঙ্ক দিন অথবা সরাসরি অডিও/ভিডিও ফাইল সিলেক্ট করুন।
+            </div>
+
+            <input type="text" id="urlInput" placeholder="ইউটিউব ভিডিও লিঙ্ক দিন" style="width:92%; padding:12px; border-radius:12px; border:1px solid #ddd; outline:none;">
+            
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button onclick="playOnline()" style="flex:1; padding:13px; border-radius:12px; background:#e74c3c; color:white; border:none; font-weight:bold; cursor:pointer;">▶ Play Online</button>
+                <button onclick="toggleFileMenu()" id="fileMainBtn" style="flex:1; padding:13px; border-radius:12px; background:#34495e; color:white; border:none; font-weight:bold; cursor:pointer;">📁 ফাইল বাছুন</button>
+            </div>
+
+            <div id="fileSelectionMenu" class="selection-menu">
+                <button onclick="document.getElementById('pickAudio').click()" style="padding:15px; border-radius:10px; background:#2980b9; color:white; border:none; font-weight:bold; cursor:pointer;">🎵 অডিও প্লেয়ার</button>
+                <button onclick="document.getElementById('pickVideo').click()" style="padding:15px; border-radius:10px; background:#8e44ad; color:white; border:none; font-weight:bold; cursor:pointer;">🎬 ভিডিও প্লেয়ার</button>
+            </div>
+
+            <input type="file" id="pickAudio" style="display:none;" accept="audio/*" onchange="handleFile(event, 'audio')">
+            <input type="file" id="pickVideo" style="display:none;" accept="video/*" onchange="handleFile(event, 'video')">
+        </div>
+
+        <div class="box-style" style="cursor:pointer; padding: 50px 20px;" onclick="doCount()">
+            <div id="active-tasbeeh-name" style="font-size:28px; font-weight:bold; color:var(--primary-color);">সুবহানাল্লাহ</div>
+            <span id="count-num">0</span>
+            <div style="display:flex; justify-content:center; gap:20px;">
+                <button class="btn-style" id="saveBtn" style="background:var(--primary-color); color:white;" onclick="event.stopPropagation(); saveHistory()">Save (সেভ)</button>
+                <button class="btn-style" style="background:#95a5a6; color:white;" onclick="event.stopPropagation(); resetCount()">Reset</button>
+            </div>
+        </div>
+
+        <div class="box-style">
+            <label id="selectLabel" style="font-weight:bold; color:var(--primary-color); display:block; margin-bottom:10px;">তসবিহ নির্বাচন করুন:</label>
+            <select id="tasbeehSelect" onchange="changeTasbeeh()" style="width:100%; padding:15px; border-radius:15px; border:2px solid var(--primary-color); background:var(--card-bg); color:var(--text-color); font-size:16px;">
+                <option value="সুবহানাল্লাহ">সুবহানাল্লাহ</option>
+                <option value="আলহামদুলিল্লাহ">আলহামদুলিল্লাহ</option>
+                <option value="আল্লাহু আকবর">আল্লাহু আকবর</option>
+                <option value="লা ইলাহা ইল্লাল্লাহ">লা ইলাহা ইল্লাল্লাহ</option>
+                <option value="আস্তাগফিরুল্লাহ">আস্তাগফিরুল্লাহ</option>
+                <option value="দরুদ শরীফ">দরুদ শরীফ</option>
+                <option value="সুবহানাল্লাহি ওয়া বিহামদিহি">সুবহানাল্লাহি ওয়া বিহামদিহি</option>
+                <option value="লা হাওলা ওয়ালা কুয়াতা">লা হাওলা ওয়ালা কুয়াতা</option>
+                <option value="হাসবুনাল্লাহু ওয়া নি'মাল ওয়াকীল">হাসবুনাল্লাহু ওয়া নি'মাল ওয়াকীল</option>
+                <option value="সুবহানাল্লাহিল আজিম">সুবহানাল্লাহিল আজিম</option>
+                <option value="ইয়া হাইয়ু ইয়া কাইয়ুম">ইয়া হাইয়ু ইয়া কাইয়ুম</option>
+                <option value="লা ইলাহা ইল্লা আনতা">লা ইলাহা ইল্লা আনতা</option>
+            </select>
+            <hr style="margin:20px 0; opacity:0.1;">
+            <h4 id="addTasbeehTitle" style="margin-top:0;">নতুন তসবিহ যোগ করুন (হিস্টোরিতে যাবে)</h4>
+            <input type="text" id="customInput" placeholder="তসবিহ বা দোয়ার নাম..." style="width:92%; padding:12px; border-radius:12px; border:1px solid #ddd; outline:none; margin-bottom:10px;">
+            <button onclick="addNewCustom()" style="width:100%; padding:12px; border-radius:12px; background:var(--primary-color); color:white; border:none; font-weight:bold; cursor:pointer;">➕ হিস্টোরিতে সেভ করুন</button>
+        </div>
+
+        <div class="footer-brand">
+            THE SMART COUNTER & TASBEEH<br>
+            <span style="color:var(--primary-color); font-size:16px;">POWERED BY HYBRID</span>
+        </div>
+    </div>
+
+    <script>
+        // স্প্ল্যাশ স্ক্রিন (৩ সেকেন্ড)
+        window.onload = () => {
+            setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 3000);
+            renderHistory();
+        };
+
+        let count = 0;
+        let historyData = JSON.parse(localStorage.getItem('hybrid_final_v18')) || [];
+
+        function doCount() { count++; document.getElementById('count-num').innerText = count; }
+        function resetCount() { count = 0; document.getElementById('count-num').innerText = 0; }
+        function changeTasbeeh() { resetCount(); document.getElementById('active-tasbeeh-name').innerText = document.getElementById('tasbeehSelect').value; }
+
+        function saveHistory() {
+            if(count === 0) return;
+            historyData.unshift({ name: document.getElementById('active-tasbeeh-name').innerText, count: count, date: new Date().toLocaleString() });
+            updateStorage(); resetCount(); alert("সেভ হয়েছে!");
+        }
+
+        function addNewCustom() {
+            let val = document.getElementById('customInput').value.trim();
+            if(!val) return;
+            historyData.unshift({ name: val, count: 0, date: "নতুন তসবিহ" });
+            updateStorage(); document.getElementById('customInput').value = ""; alert("হিস্টোরিতে যোগ হয়েছে!");
+        }
+
+        function updateStorage() { localStorage.setItem('hybrid_final_v18', JSON.stringify(historyData)); renderHistory(); }
+
+        function renderHistory() {
+            const list = document.getElementById('historyListArea');
+            list.innerHTML = historyData.length ? historyData.map((item, i) => `
+                <div class="history-card" onclick="loadFromHist(${i})">
+                    <strong>${item.name}</strong><br>
+                    <span style="font-size:18px; color:var(--primary-color); font-weight:bold;">${item.count}</span> বার | <small>${item.date}</small>
+                    <button class="del-btn" style="position:absolute; right:10px; top:15px;" onclick="event.stopPropagation(); deleteHist(${i})">🗑</button>
+                </div>
+            `).join('') : "<p>হিস্টোরি খালি</p>";
+        }
+
+        function loadFromHist(i) {
+            count = historyData[i].count;
+            document.getElementById('count-num').innerText = count;
+            document.getElementById('active-tasbeeh-name').innerText = historyData[i].name;
+            handleMenu(false);
+        }
+
+        function deleteHist(i) { historyData.splice(i, 1); updateStorage(); }
+        function clearEverything() { if(confirm("সব মুছবেন?")) { historyData = []; updateStorage(); } }
+
+        // --- স্মার্ট প্লেয়ার লজিক (তোমার পদ্ধতিতে) ---
+        function toggleFileMenu() {
+            let menu = document.getElementById('fileSelectionMenu');
+            menu.style.display = (menu.style.display === 'grid') ? 'none' : 'grid';
+        }
+
+        function stopAll() {
+            document.getElementById('masterPlayer').style.display = 'none';
+            document.getElementById('ytWrap').style.display = 'none';
+            document.getElementById('localVideo').style.display = 'none';
+            document.getElementById('localAudio').style.display = 'none';
+            document.getElementById('localVideo').pause();
+            document.getElementById('localAudio').pause();
+            document.getElementById('webVideo').src = '';
+        }
+
+        function playOnline() {
+            let url = document.getElementById('urlInput').value.trim();
+            let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+            if(id) {
+                stopAll();
+                document.getElementById('masterPlayer').style.display = 'block';
+                document.getElementById('ytWrap').style.display = 'block';
+                document.getElementById('webVideo').src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
+            }
+        }
+
+        // তোমার আইডিয়া অনুযায়ী আলাদা হ্যান্ডলিং
+        function handleFile(e, type) {
+            const file = e.target.files[0];
+            if(!file) return;
+            stopAll();
+            document.getElementById('masterPlayer').style.display = 'block';
+            const url = URL.createObjectURL(file);
+            document.getElementById('fileSelectionMenu').style.display = 'none';
+
+            if(type === 'video') {
+                let v = document.getElementById('localVideo');
+                v.style.display = 'block'; v.src = url; v.play();
+            } else {
+                let a = document.getElementById('localAudio');
+                a.style.display = 'block'; a.src = url; a.play();
+            }
+        }
+
+        function handleMenu(open) { document.getElementById("smartSidebar").style.width = open ? "320px" : "0"; }
+        function setAppTheme(t) { document.getElementById('mainAppBody').className = (t === 'default' ? '' : t); }
+        function performSearch() { let q = document.getElementById('mainSearch').value; if(q) window.open("https://www.google.com/search?q=islamic+" + q); }
+
+        function setAppLang(l) {
+            const ui = {
+                bn: { st: "সেটিংস ও হিস্টোরি", th: "থিম নির্বাচন করুন", sl: "তসবিহ নির্বাচন করুন:", sv: "Save (সেভ)", mh: "ওয়াজ ও গজল প্লেয়ার", at: "নতুন তসবিহ যোগ করুন (হিস্টোরিতে যাবে)", gb: "YouTube লিঙ্ক দিন অথবা সরাসরি অডিও/ভিডিও ফাইল সিলেক্ট করুন।", sp: "Welcome to Smart Counter & Tasbeeh" },
+                en: { st: "Settings & History", th: "Select Theme", sl: "Choose Tasbeeh:", sv: "Save", mh: "Waz & Ghazal Player", at: "Add Custom (to History)", gb: "Provide YouTube link or select Video/Audio from phone.", sp: "Welcome to Smart Counter & Tasbeeh" }
+            };
+            document.getElementById('sideTitle').innerText = ui[l].st; document.getElementById('themeHeading').innerText = ui[l].th;
+            document.getElementById('selectLabel').innerText = ui[l].sl; document.getElementById('saveBtn').innerText = ui[l].sv;
+            document.getElementById('mediaHead').innerText = ui[l].mh; document.getElementById('addTasbeehTitle').innerText = ui[l].at;
+            document.getElementById('guideBox').innerText = ui[l].gb; document.getElementById('spTitle').innerText = ui[l].sp;
+        }
+    </script>
+</body>
+</html>
