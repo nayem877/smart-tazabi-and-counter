@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Smart Tasbeeh - Ultimate Master v22.0</title>
+    <title>Hybrid Smart Tasbeeh - Final Ultimate v24.0</title>
     <style>
         :root {
             --bg-color: #f5f6fa;
@@ -12,7 +12,7 @@
             --primary-color: #27ae60;
         }
 
-        /* প্রিমিয়াম থিম কালেকশন */
+        /* তোমার সব ১২টি প্রিমিয়াম ও ইসলামিক থিম */
         .theme-dark { --bg-color: #1a1a1b; --text-color: #ecf0f1; --card-bg: #2d3436; --primary-color: #00b894; }
         .theme-blue { --bg-color: #e1f5fe; --text-color: #01579b; --card-bg: #ffffff; --primary-color: #0288d1; }
         .theme-gold { --bg-color: #2d241e; --text-color: #f1c40f; --card-bg: #3d3229; --primary-color: #f39c12; }
@@ -21,17 +21,14 @@
         .theme-kaaba { --bg-color: #121212; --text-color: #d4af37; --card-bg: #1e1e1e; --primary-color: #d4af37; }
         .theme-ramadan { --bg-color: #2c003e; --text-color: #ffa500; --card-bg: #3d0057; --primary-color: #ffcc00; }
         .theme-quds { --bg-color: #fdf2e9; --text-color: #a04000; --card-bg: #ffffff; --primary-color: #d35400; }
-        /* নতুন ৫টি প্রিমিয়াম থিম */
-        .theme-aksa { --bg-color: #e3f2fd; --text-color: #0d47a1; --card-bg: #ffffff; --primary-color: #1565c0; } /* আল-আকসা */
-        .theme-ferdaus { --bg-color: #f1f8e9; --text-color: #33691e; --card-bg: #ffffff; --primary-color: #689f38; } /* জান্নাতুল ফেরদাউস */
-        .theme-uhud { --bg-color: #efebe9; --text-color: #4e342e; --card-bg: #ffffff; --primary-color: #795548; } /* ওহুদ */
-        .theme-nile { --bg-color: #e0f7fa; --text-color: #006064; --card-bg: #ffffff; --primary-color: #00acc1; } /* নীল নদ */
-        .theme-sahara { --bg-color: #fffde7; --text-color: #f57f17; --card-bg: #ffffff; --primary-color: #fbc02d; } /* সাহারা */
+        .theme-aksa { --bg-color: #e3f2fd; --text-color: #0d47a1; --card-bg: #ffffff; --primary-color: #1565c0; }
+        .theme-ferdaus { --bg-color: #f1f8e9; --text-color: #33691e; --card-bg: #ffffff; --primary-color: #689f38; }
+        .theme-uhud { --bg-color: #efebe9; --text-color: #4e342e; --card-bg: #ffffff; --primary-color: #795548; }
+        .theme-noor { --bg-color: #effafb; --text-color: #008080; --card-bg: #ffffff; --primary-color: #008080; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-color); color: var(--text-color);
             margin: 0; padding: 0; transition: 0.5s; text-align: center;
         }
 
@@ -73,15 +70,22 @@
         #count-num { font-size: 100px; font-weight: bold; margin: 10px 0; display: block; color: var(--text-color); line-height: 1; }
         .btn-style { padding: 12px 25px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
 
-        .selection-menu { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-
+        .theme-circle { width:35px; height:35px; border-radius:50%; margin:auto; border:2px solid #ddd; cursor:pointer; }
+        
         .history-card {
             background: var(--bg-color); padding: 15px; border-radius: 15px;
             margin-bottom: 15px; border-left: 6px solid var(--primary-color);
             position: relative; cursor: pointer; text-align: left;
         }
 
-        .theme-circle { width:35px; height:35px; border-radius:50%; margin:auto; border:2px solid #ddd; cursor:pointer; }
+        #policyModal {
+            display: none; position: fixed; z-index: 5000; left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); overflow-y: auto; padding: 20px;
+        }
+        .modal-content {
+            background: #fff; margin: 20px auto; padding: 30px; width: 90%; max-width: 600px; 
+            border-radius: 20px; color: #333; text-align: left; line-height: 1.6; font-size: 14px;
+        }
 
         .footer-brand { margin-top: 40px; padding: 20px; font-size: 14px; font-weight: bold; opacity: 0.8; border-top: 1px dashed #ccc; }
     </style>
@@ -107,11 +111,11 @@
             <h3 id="sideTitle">সেটিংস ও হিস্টোরি</h3>
             
             <div style="display:flex; gap:10px; margin-bottom: 20px;">
-                <button onclick="setAppLang('bn')" style="flex:1; padding:12px; border-radius:10px; border:2px solid var(--primary-color); background:white; font-weight:bold; cursor:pointer;">বাংলা (Bangla)</button>
+                <button onclick="setAppLang('bn')" style="flex:1; padding:12px; border-radius:10px; border:2px solid var(--primary-color); background:white; font-weight:bold; cursor:pointer;">বাংলা</button>
                 <button onclick="setAppLang('en')" style="flex:1; padding:12px; border-radius:10px; border:2px solid #ddd; background:white; font-weight:bold; cursor:pointer;">English</button>
             </div>
 
-            <h4 id="themeHeading">থিম নির্বাচন করুন</h4>
+            <h4 id="themeHeading">থিম নির্বাচন করুন (১২টি)</h4>
             <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-bottom: 20px; text-align:center;">
                 <div onclick="setAppTheme('default')"><div class="theme-circle" style="background:#27ae60;"></div><small>লাইভ</small></div>
                 <div onclick="setAppTheme('theme-dark')"><div class="theme-circle" style="background:#1a1a1b;"></div><small>ডার্ক</small></div>
@@ -122,11 +126,12 @@
                 <div onclick="setAppTheme('theme-ramadan')"><div class="theme-circle" style="background:#2c003e;"></div><small>রমজান</small></div>
                 <div onclick="setAppTheme('theme-quds')"><div class="theme-circle" style="background:#d35400;"></div><small>কুদস</small></div>
                 <div onclick="setAppTheme('theme-aksa')"><div class="theme-circle" style="background:#1565c0;"></div><small>আকসা</small></div>
-                <div onclick="setAppTheme('theme-ferdaus')"><div class="theme-circle" style="background:#689f38;"></div><small>ফেরদাউস</small></div>
+                <div onclick="setAppTheme('theme-ferdaus')"><div class="theme-circle" style="background:#689f38;"></div><small>জান্নাত</small></div>
                 <div onclick="setAppTheme('theme-uhud')"><div class="theme-circle" style="background:#795548;"></div><small>ওহুদ</small></div>
-                <div onclick="setAppTheme('theme-sahara')"><div class="theme-circle" style="background:#fbc02d;"></div><small>সাহারা</small></div>
+                <div onclick="setAppTheme('theme-noor')"><div class="theme-circle" style="background:#008080;"></div><small>নূর</small></div>
             </div>
-            
+
+            <button onclick="showPolicy()" style="background:#34495e; color:white; border:none; padding:12px; border-radius:10px; width:100%; font-weight:bold; cursor:pointer; margin-bottom:10px;">🛡 Privacy Policy</button>
             <button onclick="clearEverything()" style="background:red; color:white; border:none; padding:12px; border-radius:10px; width:100%; font-weight:bold; cursor:pointer;">🗑 সব হিস্টোরি মুছুন</button>
         </div>
         <div class="sidebar-content" id="historyListArea"></div>
@@ -136,27 +141,26 @@
         
         <div class="box-style">
             <h4 id="mediaHead" style="margin-top:0;">ওয়াজ ও গজল প্লেয়ার</h4>
-            
             <div id="masterPlayer" class="player-area">
-                <div id="ytWrap" class="video-wrapper" style="display:none;"><iframe id="webVideo" allowfullscreen></iframe></div>
+                <div id="ytWrap" class="video-wrapper" style="display:none;"><iframe id="webVideo"
+                allowfullscreen></iframe></div>
                 <video id="localVideo" controls playsinline style="display:none; width:100%;"></video>
-                <audio id="localAudio" controls style="display:none; width:100%; margin-top:10px;"></audio>
+                <audio id="localAudio" controls style="display:none; width:100%;"></audio>
             </div>
-
-            <div style="background: #fff9db; padding: 15px; border-radius: 12px; font-size: 13px; margin: 15px 0; text-align: left; color: #856404; border-left: 5px solid #ffc107;" id="guideBox">
+            <div style="background: #fff9db; padding: 12px; border-radius: 12px;
+            font-size: 13px; margin: 15px 0; text-align: left; color: #856404; border-left: 5px solid #ffc107;" id="guideBox">
                 <strong>ব্যবহার নির্দেশিকা:</strong><br>
-                ১. YouTube থেকে ভিডিও দেখতে লিঙ্কটি নিচের বক্সে দিয়ে 'Play Online' চাপুন।<br>
-                ২. আপনার ফোন থেকে অডিও বা ভিডিও ফাইল চালাতে 'ফাইল বাছুন' বাটনে ক্লিক করে ফাইল সিলেক্ট করুন।
+                ১. YouTube লিঙ্ক দিয়ে 'Play Online' চাপুন।<br>
+                ২. ফোন থেকে ফাইল চালাতে 'ফাইল বাছুন' ক্লিক করুন।
             </div>
-
             <input type="text" id="urlInput" placeholder="ইউটিউব ভিডিও লিঙ্ক দিন" style="width:92%; padding:12px; border-radius:12px; border:1px solid #ddd; outline:none;">
             <div style="display:flex; gap:10px; margin-top:10px;">
                 <button onclick="playOnline()" style="flex:1; padding:13px; border-radius:12px; background:#e74c3c; color:white; border:none; font-weight:bold; cursor:pointer;">▶ Play Online</button>
-                <button onclick="toggleFileMenu()" id="fileMainBtn" style="flex:1; padding:13px; border-radius:12px; background:#34495e; color:white; border:none; font-weight:bold; cursor:pointer;">📁 ফাইল বাছুন</button>
+                <button onclick="toggleFileMenu()" style="flex:1; padding:13px; border-radius:12px; background:#34495e; color:white; border:none; font-weight:bold; cursor:pointer;">📁 ফাইল বাছুন</button>
             </div>
-            <div id="fileSelectionMenu" class="selection-menu">
-                <button onclick="document.getElementById('pickAudio').click()" style="padding:15px; border-radius:10px; background:#2980b9; color:white; border:none; font-weight:bold; cursor:pointer;">🎵 অডিও প্লেয়ার</button>
-                <button onclick="document.getElementById('pickVideo').click()" style="padding:15px; border-radius:10px; background:#8e44ad; color:white; border:none; font-weight:bold; cursor:pointer;">🎬 ভিডিও প্লেয়ার</button>
+            <div id="fileSelectionMenu" style="display:none; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                <button onclick="document.getElementById('pickAudio').click()" style="padding:15px; border-radius:10px; background:#2980b9; color:white; border:none; font-weight:bold;">🎵 অডিও</button>
+                <button onclick="document.getElementById('pickVideo').click()" style="padding:15px; border-radius:10px; background:#8e44ad; color:white; border:none; font-weight:bold;">🎬 ভিডিও</button>
             </div>
             <input type="file" id="pickAudio" style="display:none;" accept="audio/*" onchange="handleFile(event, 'audio')">
             <input type="file" id="pickVideo" style="display:none;" accept="video/*" onchange="handleFile(event, 'video')">
@@ -173,7 +177,7 @@
 
         <div class="box-style">
             <label id="selectLabel" style="font-weight:bold; color:var(--primary-color); display:block; margin-bottom:10px;">তসবিহ নির্বাচন করুন:</label>
-            <select id="tasbeehSelect" onchange="changeTasbeeh()" style="width:100%; padding:15px; border-radius:15px; border:2px solid var(--primary-color); background:var(--card-bg); font-size:16px; color: var(--text-color);">
+            <select id="tasbeehSelect" onchange="changeTasbeeh()" style="width:100%; padding:15px; border-radius:15px; border:2px solid var(--primary-color); background:var(--card-bg); font-size:16px;">
                 <option value="সুবহানাল্লাহ">সুবহানাল্লাহ</option>
                 <option value="আলহামদুলিল্লাহ">আলহামদুলিল্লাহ</option>
                 <option value="আল্লাহু আকবর">আল্লাহু আকবর</option>
@@ -196,15 +200,13 @@
             <h4 style="margin-top:0; color:var(--primary-color);">HYBRID ALL APP</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                 <a href="https://nayem877.github.io/smart-ai-calc/" target="_blank" style="text-decoration:none; color:inherit;">
-                    <div class="app-link-card">
-                        <div style="font-size: 35px;">🧮</div>
-                        <div style="font-weight: bold; font-size: 14px; margin-top:5px;">Calculator App</div>
+                    <div style="padding:15px; background:var(--bg-color); border-radius:15px;">
+                        <div style="font-size: 35px;">🧮</div><div style="font-weight:bold; font-size:14px;">Calculator App</div>
                     </div>
                 </a>
                 <a href="https://nayem877.github.io/shop-h/" target="_blank" style="text-decoration:none; color:inherit;">
-                    <div class="app-link-card">
-                        <div style="font-size: 35px;">🛒</div>
-                        <div style="font-weight: bold; font-size: 14px; margin-top:5px;">Shopping Now</div>
+                    <div style="padding:15px; background:var(--bg-color); border-radius:15px;">
+                        <div style="font-size: 35px;">🛒</div><div style="font-weight:bold; font-size:14px;">Shopping Now</div>
                     </div>
                 </a>
             </div>
@@ -213,68 +215,47 @@
         <div class="box-style" style="border: 2px solid #2980b9;">
             <h4 id="fitTitle" style="margin-top:0; color:#2980b9;">🚶 স্মার্ট স্টেপ কাউন্টার ও ম্যাপ</h4>
             <div style="display: flex; justify-content: space-around; margin: 15px 0;">
-                <div><div id="step-count" style="font-size:24px; font-weight:bold; color:#2980b9;">0</div><small>ধাপ (Steps)</small></div>
-                <div><div id="distance-val" style="font-size:24px; font-weight:bold; color:#2980b9;">0.00</div><small>কি.মি. (KM)</small></div>
+                <div><div id="step-count" style="font-size:24px; font-weight:bold; color:#2980b9;">0</div><small>ধাপ</small></div>
+                <div><div id="distance-val" style="font-size:24px; font-weight:bold; color:#2980b9;">0.00</div><small>কি.মি.</small></div>
             </div>
             <div style="display:flex; gap:10px;">
-                <button onclick="startStepCounter()" id="stepBtn" style="flex:1; padding:12px; border-radius:10px; background:#27ae60; color:white; border:none; font-weight:bold; cursor:pointer;">ট্র্যাকিং শুরু</button>
-                <button onclick="openGoogleMap()" style="flex:1; padding:12px; border-radius:10px; background:#4285F4; color:white; border:none; font-weight:bold; cursor:pointer;">📍 গুগল ম্যাপ</button>
+                <button onclick="startStepCounter()" id="stepBtn" style="flex:1; padding:12px; border-radius:10px; background:#27ae60; color:white; border:none; font-weight:bold;">ট্র্যাকিং শুরু</button>
+                <button onclick="openGoogleMap()" style="flex:1; padding:12px; border-radius:10px; background:#4285F4; color:white; border:none; font-weight:bold;">📍 গুগল ম্যাপ</button>
             </div>
         </div>
 
-        <div class="footer-brand">
-            THE SMART COUNTER & TASBEEH<br>
-            <span style="color:var(--primary-color); font-size:16px;">POWERED BY HYBRID</span>
+        <div class="footer-brand">THE SMART COUNTER & TASBEEH<br>POWERED BY HYBRID</div>
+    </div>
+
+    <div id="policyModal">
+        <div class="modal-content">
+            <h2 style="text-align:center;">Privacy Policy</h2>
+            <p><strong>Last Updated: March 02, 2026</strong></p>
+            <p>At <strong>Hybrid Smart Tasbeeh</strong>, one of our main priorities is the privacy of our users. This app does not collect any personally identifiable information. Fitness data from sensors is processed locally and never sent to any server. Media files are accessed only for local playback. Local history is saved in LocalStorage and stays on your device.</p>
+            <p><strong>Third-Party:</strong> We use YouTube for online videos and Google Maps for location features. These services have their own policies.</p>
+            <p><strong>Consent:</strong> By using our app, you hereby consent to our Privacy Policy and agree to its terms.</p>
+            <button onclick="document.getElementById('policyModal').style.display='none'" style="width:100%; padding:12px; background:var(--primary-color); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-top:20px;">I Understand & Accept</button>
         </div>
     </div>
 
     <script>
-        // স্প্ল্যাশ স্ক্রিন
-        window.onload = () => {
-            setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 3000);
-            renderHistory();
-        };
-
-        let count = 0;
-        let historyData = JSON.parse(localStorage.getItem('hybrid_final_v22')) || [];
-        let steps = 0;
-        let isTracking = false;
-        let lastAccel = { x: 0, y: 0, z: 0 };
+        window.onload = () => { setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 3000); renderHistory(); };
+        
+        let count = 0; 
+        let historyData = JSON.parse(localStorage.getItem('hybrid_ultimate_v24')) || [];
+        let steps = 0; let isTracking = false; let lastAccel = { x: 0, y: 0, z: 0 };
 
         // --- Fitness Logic ---
-        function startStepCounter() {
-            if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-                DeviceMotionEvent.requestPermission().then(res => { if (res == 'granted') setupAccel(); });
-            } else { setupAccel(); }
-        }
-        function setupAccel() {
-            if (!isTracking) {
-                isTracking = true;
-                document.getElementById('stepBtn').innerText = "চলছে...";
-                window.addEventListener('devicemotion', handleMotion);
-            } else {
-                isTracking = false;
-                document.getElementById('stepBtn').innerText = "ট্র্যাকিং শুরু";
-                window.removeEventListener('devicemotion', handleMotion);
-            }
-        }
-        function handleMotion(e) {
-            let acc = e.accelerationIncludingGravity;
-            let delta = Math.sqrt(Math.pow(acc.x - lastAccel.x, 2) + Math.pow(acc.y - lastAccel.y, 2) + Math.pow(acc.z - lastAccel.z, 2));
-            if (delta > 12) {
-                steps++;
-                document.getElementById('step-count').innerText = steps;
-                document.getElementById('distance-val').innerText = (steps * 0.0007).toFixed(2);
-            }
-            lastAccel = { x: acc.x, y: acc.y, z: acc.z };
-        }
-        function openGoogleMap() { window.open("https://maps.google.com", "_blank"); }
+        function startStepCounter() { if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') { DeviceMotionEvent.requestPermission().then(res => { if (res == 'granted') setupAccel(); }); } else { setupAccel(); } }
+        function setupAccel() { if (!isTracking) { isTracking = true; document.getElementById('stepBtn').innerText = "চলছে..."; window.addEventListener('devicemotion', handleMotion); } else { isTracking = false; document.getElementById('stepBtn').innerText = "ট্র্যাকিং শুরু"; window.removeEventListener('devicemotion', handleMotion); } }
+        function handleMotion(e) { let acc = e.accelerationIncludingGravity; let delta = Math.sqrt(Math.pow(acc.x - lastAccel.x, 2) + Math.pow(acc.y - lastAccel.y, 2) + Math.pow(acc.z - lastAccel.z, 2)); if (delta > 12) { steps++; document.getElementById('step-count').innerText = steps; document.getElementById('distance-val').innerText = (steps * 0.0007).toFixed(2); } lastAccel = { x: acc.x, y: acc.y, z: acc.z }; }
 
         // --- Core Counting Logic ---
         function doCount() { count++; document.getElementById('count-num').innerText = count; }
         function resetCount() { count = 0; document.getElementById('count-num').innerText = 0; }
         function changeTasbeeh() { resetCount(); document.getElementById('active-tasbeeh-name').innerText = document.getElementById('tasbeehSelect').value; }
 
+        // --- History & Custom Tasbeeh (Fixed & Improved) ---
         function saveHistory() {
             if(count === 0) return;
             historyData.unshift({ name: document.getElementById('active-tasbeeh-name').innerText, count: count, date: new Date().toLocaleString() });
@@ -284,11 +265,14 @@
         function addNewCustom() {
             let val = document.getElementById('customInput').value.trim();
             if(!val) return;
+            // সরাসরি হিস্টোরিতে জিরো কাউন্ট দিয়ে সেভ করা যাতে ইউজার পরে পড়তে পারে
             historyData.unshift({ name: val, count: 0, date: "নতুন তসবিহ" });
-            updateStorage(); document.getElementById('customInput').value = ""; alert("হিস্টোরিতে যোগ হয়েছে!");
+            updateStorage(); 
+            document.getElementById('customInput').value = ""; 
+            alert("হিস্টোরিতে সেভ হয়েছে! এখন নিচের তালিকা থেকে এটিতে ক্লিক করে পড়তে পারবেন।");
         }
 
-        function updateStorage() { localStorage.setItem('hybrid_final_v22', JSON.stringify(historyData)); renderHistory(); }
+        function updateStorage() { localStorage.setItem('hybrid_ultimate_v24', JSON.stringify(historyData)); renderHistory(); }
 
         function renderHistory() {
             const list = document.getElementById('historyListArea');
@@ -296,76 +280,37 @@
                 <div class="history-card" onclick="loadFromHist(${i})">
                     <strong>${item.name}</strong><br>
                     <span style="font-size:18px; color:var(--primary-color); font-weight:bold;">${item.count}</span> বার | <small>${item.date}</small>
-                    <button style="position:absolute; right:10px; top:15px; border:none; background:red; color:white; border-radius:5px; padding:5px 8px; cursor:pointer;" onclick="event.stopPropagation(); deleteHist(${i})">🗑</button>
+                    <button style="position:absolute; right:10px; top:15px; border:none; background:red; color:white; border-radius:5px; padding:5px 8px;" onclick="event.stopPropagation(); deleteHist(${i})">🗑</button>
                 </div>
             `).join('') : "<p style='text-align:center;'>হিস্টোরি খালি</p>";
         }
 
+        // হিস্টোরি থেকে পুনরায় পড়ার লজিক (Fixed)
         function loadFromHist(i) {
             count = historyData[i].count;
             document.getElementById('count-num').innerText = count;
             document.getElementById('active-tasbeeh-name').innerText = historyData[i].name;
-            handleMenu(false);
+            handleMenu(false); // সাইডবার বন্ধ করা
+            alert(historyData[i].name + " লোড হয়েছে। এখন এখান থেকে পড়া শুরু করুন।");
         }
+
         function deleteHist(i) { historyData.splice(i, 1); updateStorage(); }
-        function clearEverything() { if(confirm("আপনি কি নিশ্চিতভাবে সব হিস্টোরি মুছতে চান?")) { historyData = []; updateStorage(); } }
+        function clearEverything() { if(confirm("সব মুছবেন?")) { historyData = []; updateStorage(); } }
 
-        // --- Media Player Logic ---
-        function toggleFileMenu() {
-            let menu = document.getElementById('fileSelectionMenu');
-            menu.style.display = (menu.style.display === 'grid') ? 'none' : 'grid';
-        }
-        function stopAll() {
-            document.getElementById('masterPlayer').style.display='none';
-            document.getElementById('ytWrap').style.display='none';
-            document.getElementById('localVideo').style.display='none';
-            document.getElementById('localAudio').style.display='none';
-            document.getElementById('localVideo').pause();
-            document.getElementById('localAudio').pause();
-            document.getElementById('webVideo').src='';
-        }
-        function playOnline() {
-            let url = document.getElementById('urlInput').value.trim();
-            let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
-            if(id) {
-                stopAll();
-                document.getElementById('masterPlayer').style.display='block';
-                document.getElementById('ytWrap').style.display='block';
-                document.getElementById('webVideo').src="https://www.youtube.com/embed/"+id+"?autoplay=1";
-            }
-        }
-        function handleFile(e, type) {
-            const file = e.target.files[0];
-            if(!file) return;
-            stopAll();
-            document.getElementById('masterPlayer').style.display='block';
-            const url = URL.createObjectURL(file);
-            document.getElementById('fileSelectionMenu').style.display='none';
-            if(type==='video') {
-                let v=document.getElementById('localVideo'); v.style.display='block'; v.src=url; v.play();
-            } else {
-                let a=document.getElementById('localAudio'); a.style.display='block'; a.src=url; a.play();
-            }
-        }
-
-        // --- UI Logic ---
+        // --- UI & Media Logic ---
         function handleMenu(open) { document.getElementById("smartSidebar").style.width = open ? "320px" : "0"; }
         function setAppTheme(t) { document.getElementById('mainAppBody').className = (t === 'default' ? '' : t); }
+        function showPolicy() { document.getElementById('policyModal').style.display = 'block'; }
+        function toggleFileMenu() { let menu = document.getElementById('fileSelectionMenu'); menu.style.display = (menu.style.display === 'grid') ? 'none' : 'grid'; }
+        function stopAll() { document.getElementById('masterPlayer').style.display='none'; document.getElementById('ytWrap').style.display='none'; document.getElementById('localVideo').style.display='none'; document.getElementById('localAudio').style.display='none'; document.getElementById('localVideo').pause(); document.getElementById('localAudio').pause(); document.getElementById('webVideo').src=''; }
+        function playOnline() { let url = document.getElementById('urlInput').value.trim(); let id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop(); if(id) { stopAll(); document.getElementById('masterPlayer').style.display='block'; document.getElementById('ytWrap').style.display='block'; document.getElementById('webVideo').src="https://www.youtube.com/embed/"+id+"?autoplay=1"; } }
+        function handleFile(e, type) { const file = e.target.files[0]; if(!file) return; stopAll(); document.getElementById('masterPlayer').style.display='block'; const url = URL.createObjectURL(file); if(type==='video') { let v=document.getElementById('localVideo'); v.style.display='block'; v.src=url; v.play(); } else { let a=document.getElementById('localAudio'); a.style.display='block'; a.src=url; a.play(); } }
+        function openGoogleMap() { window.open("https://maps.google.com", "_blank"); }
         function performSearch() { let q = document.getElementById('mainSearch').value; if(q) window.open("https://www.google.com/search?q=islamic+" + q); }
-        function setAppLang(l) {
-            const ui = {
-                bn: { st: "সেটিংস ও হিস্টোরি", th: "থিম নির্বাচন করুন", sl: "তসবিহ নির্বাচন করুন:", sv: "Save (সেভ)", mh: "ওয়াজ ও গজল প্লেয়ার", at: "নতুন তসবিহ যোগ করুন", ft: "🚶 স্মার্ট স্টেপ কাউন্টার ও ম্যাপ", gb: "<strong>ব্যবহার নির্দেশিকা:</strong><br>১. YouTube লিঙ্ক দিয়ে 'Play Online' চাপুন।<br>২. ফোন থেকে ফাইল চালাতে 'ফাইল বাছুন' ক্লিক করুন।" },
-                en: { st: "Settings & History", th: "Select Theme", sl: "Choose Tasbeeh:", sv: "Save", mh: "Waz & Ghazal Player", at: "Add New Custom", ft: "🚶 Smart Step Counter & Map", gb: "<strong>Guide:</strong><br>1. Paste YT link & click 'Play Online'.<br>2. To play from phone, click 'Select File'." }
-            };
-            document.getElementById('sideTitle').innerText = ui[l].st;
-            document.getElementById('themeHeading').innerText = ui[l].th;
-            document.getElementById('selectLabel').innerText = ui[l].sl;
-            document.getElementById('saveBtn').innerText = ui[l].sv;
-            document.getElementById('mediaHead').innerText = ui[l].mh;
-            document.getElementById('addTasbeehTitle').innerText = ui[l].at;
-            document.getElementById('fitTitle').innerText = ui[l].ft;
-            document.getElementById('guideBox').innerHTML = ui[l].gb;
+        function setAppLang(l) { 
+            const ui = { bn: { st: "সেটিংস ও হিস্টোরি", th: "থিম নির্বাচন করুন (১২টি)", sl: "তসবিহ নির্বাচন করুন:", sv: "Save (সেভ)", mh: "ওয়াজ ও গজল প্লেয়ার", ft: "🚶 স্মার্ট স্টেপ কাউন্টার ও ম্যাপ", gb: "<strong>গাইডলাইন:</strong><br>১. ইউটিউব লিঙ্কে 'Play Online' চাপুন।<br>২. ফাইল থেকে চালাতে 'ফাইল বাছুন' ক্লিক করুন।" }, en: { st: "Settings & History", th: "Select Theme (12)", sl: "Choose Tasbeeh:", sv: "Save", mh: "Waz & Ghazal Player", ft: "🚶 Smart Step Counter & Map", gb: "<strong>Guide:</strong><br>1. Paste YT link & click 'Play Online'.<br>2. To play files, click 'Select File'." } };
+            document.getElementById('sideTitle').innerText = ui[l].st; document.getElementById('themeHeading').innerText = ui[l].th; document.getElementById('selectLabel').innerText = ui[l].sl; document.getElementById('saveBtn').innerText = ui[l].sv; document.getElementById('mediaHead').innerText = ui[l].mh; document.getElementById('fitTitle').innerText = ui[l].ft; document.getElementById('guideBox').innerHTML = ui[l].gb;
         }
     </script>
 </body>
-    </html>
+</html>
